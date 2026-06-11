@@ -11,8 +11,8 @@ const generatePromptResponse = async (promptText) => {
 
         const genAI = new GoogleGenerativeAI(apiKey);
         
-        // Using gemini-1.5-flash as it is highly performant, low latency, and robust
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        // Using gemini-2.5-flash as it is active and supported in this environment
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         const result = await model.generateContent(promptText);
         const response = await result.response;
         
