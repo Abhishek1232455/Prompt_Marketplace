@@ -1,14 +1,13 @@
+require('dotenv').config();
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
-const dotenv = require('dotenv')
 const authRoutes = require('./routes/authRoutes.js')
 const uplaodPrompt = require('./routes/uploadPromptRoute.js')
 const promptRoute = require('./routes/promptRoutes.js')
 const categoryRoute = require('./routes/categoryRoutes.js')
 const pricingRoute = require('./routes/pricingRoutes.js')
-const connectDB = require('./database/config.js') 
-dotenv.config();
+const connectDB = require('./database/config.js')
 
 const app = express();
 

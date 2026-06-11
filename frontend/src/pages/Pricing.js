@@ -1,40 +1,55 @@
 import React from 'react'
 import {loadStripe} from '@stripe/stripe-js'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Pricing = () => {
-
   const userData = useSelector((state) => state.auth);
-  console.log(userData?.user?._id)
+  const navigate = useNavigate();
 
   const handlePayment = async (plan , amount) =>{
-    // console.log(plan, amount);
-    const stripe = await loadStripe("pk_test_51ObNMYSD8MI8srpOOBb5qmC1U0W9d2z68RRsJJn6uU6kPqyOYh7t21AAPC1qrPjBwnStI6M75LPPSSiJAN9DmQVZ00QuCUZnvu");
-    const body ={
-      plan: plan,
-      price :amount,
-      userId: userData?.user?._id
-    }
-    const header = {
-      "Content-Type":"application/json"
+    if (!userData?.user?._id) {
+      toast.error("Please Login to Purchase a Plan");
+      navigate("/login");
+      return;
     }
 
-    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/v1/plan/purchase`,{
-      method:"POST",
-      headers: header,
-      body: JSON.stringify(body),
-    })
+    try {
+      const stripe = await loadStripe("pk_test_51ObNMYSD8MI8srpOOBb5qmC1U0W9d2z68RRsJJn6uU6kPqyOYh7t21AAPC1qrPjBwnStI6M75LPPSSiJAN9DmQVZ00QuCUZnvu");
+      const body ={
+        plan: plan,
+        price :amount,
+        userId: userData?.user?._id
+      }
+      const header = {
+        "Content-Type":"application/json"
+      }
 
-    const session = await response.json();
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/v1/plan/purchase`,{
+        method:"POST",
+        headers: header,
+        body: JSON.stringify(body),
+      })
 
-    const result = stripe.redirectToCheckout({
-      sessionId:session.id
-    })
+      const session = await response.json();
+      if (!session.id) {
+        toast.error(session.message || "Checkout session generation failed.");
+        return;
+      }
 
-    if(result.error){
-      console.log(result.error);
+      const result = await stripe.redirectToCheckout({
+        sessionId:session.id
+      })
+
+      if(result.error){
+        console.error(result.error);
+        toast.error("Failed to redirect to checkout gateway.");
+      }
+    } catch (error) {
+      console.error("Payment setup error:", error);
+      toast.error("An error occurred during payment initialization.");
     }
-
   }
 
   return (
