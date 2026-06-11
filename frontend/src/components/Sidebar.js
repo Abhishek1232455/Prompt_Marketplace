@@ -34,7 +34,7 @@ const Sidebar = () => {
 
     useEffect(() => {
         getdata(cat);
-    }, [])
+    }, [cat])
 
     return (
         <div>

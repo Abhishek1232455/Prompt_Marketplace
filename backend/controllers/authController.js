@@ -29,6 +29,11 @@ const signupController = async (req, res) => {
 
     } catch (error) {
         console.log(error);
+        return res.status(500).send({
+            success: false,
+            message: "Error in Signup API",
+            error,
+        });
     }
 };
 

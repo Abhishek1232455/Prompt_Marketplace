@@ -1,29 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import API from '../../services/API'
+import API from '../../services/API';
 
 export const getCurrentUser = createAsyncThunk(
     'auth/getCurrentUser',
-    async({rejectWithValue})=>{
-        try{
+    async (arg, thunkAPI) => {
+        try {
             const response = await API("api/v1/auth/current-user", {
-                method: "GET", // or any other HTTP method
+                method: "GET",
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
-              });
-          
-              const userData = await response.json();
-            //   console.log(userData?.user);
+            });
 
-            if(userData?.user){
-                return userData?.user;
+            const userData = await response.json();
+
+            if (userData?.success && userData?.user) {
+                return userData.user;
+            } else {
+                return thunkAPI.rejectWithValue(userData?.message || "Failed to retrieve current user");
             }
-        }catch(error){
-            if(error.response && error.response.data.message){
-                return rejectWithValue(error.response.data.message)
-            }else{
-                return rejectWithValue(error.message)
-            }
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
-)
+);

@@ -86,7 +86,9 @@ const Signup = () => {
                             id='email' 
                             placeholder="email" 
                             className="input input-bordered input-sm w-full max-w-xs" 
-                            onClick={(e)=> setEmail(e.target.value)}
+                            onChange={(e)=> setEmail(e.target.value)}
+                            value={email}
+                            required
                         />
                     </div>
                     <div className='mt-3 max-w-xs relative'>

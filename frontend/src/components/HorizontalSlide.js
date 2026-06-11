@@ -29,10 +29,7 @@ const HorizontalSlide = () => {
           className='w-full flex gap-1 h-full overflow-y-scroll no-scrollbar whitespace-nowrap scroll-smooth scrollbar-hide'
         >
           { displayedData.map((item) => (
-            <>
-            <HomeCard name={item.name} image={item.imageUrl} category={item.category} price={item.price} promptDescription={item.promptDescription} promptData={item.promptData} id={item._id}/>
-            {/* {console.log(item)} */}
-            </>
+            <HomeCard key={item._id} name={item.name} image={item.imageUrl} category={item.category} price={item.price} promptDescription={item.promptDescription} promptData={item.promptData} id={item._id}/>
           ))}
         </div>
         <MdChevronRight className='opacity-50 cursor-pointer hover:opacity-100' onClick={slideRight} size={40} />

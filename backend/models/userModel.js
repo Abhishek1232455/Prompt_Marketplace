@@ -23,8 +23,8 @@ const promptSchema = new mongoose.Schema({
     required: true
   },
   userCredits: {
-    type: String,
-    default: "20"
+    type: Number,
+    default: 20
   },
   role: {
     //bollen user or admin

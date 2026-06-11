@@ -1,18 +1,22 @@
 const express = require('express');
-const stripe = require('stripe')("sk_test_51ObNMYSD8MI8srpO1BLPOUEgyFsTINwuemRIpWwBMlPTY29Q2kJYwdAvbThXvvdhhl5rbfIZ3mDdfGNa6w4XpNXI00ZxQyYRU6   ")
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
 const path = require('path');
 const User = require('../models/userModel.js');
 
-//buy current paln || POST
-router.post("/purchase", async (req,res)=>{
+// Simple in-memory deduplication for processed checkout sessions
+const processedSessions = new Set();
 
+// buy current plan || POST
+router.post("/purchase", async (req, res) => {
     try {
-        
         const data = req.body;
-        console.log(data)
-    
-        // console.log(data)
+        console.log("Purchase payload:", data);
+
+        if (!data.plan || !data.price || !data.userId) {
+            return res.status(400).json({ message: "Missing required checkout parameters" });
+        }
+
         const lineItems = [{
             price_data: {
                 currency: "inr",
@@ -24,51 +28,74 @@ router.post("/purchase", async (req,res)=>{
             quantity: 1
         }];
 
+        const protocol = req.secure ? 'https' : 'http';
+        const host = req.get('host');
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `https://prompt-marketplace-backend.onrender.com/api/v1/plan/success/${data.userId}/${data.price}`,
+            success_url: `${protocol}://${host}/api/v1/plan/success?session_id={CHECKOUT_SESSION_ID}&userId=${data.userId}&price=${data.price}`,
             cancel_url: 'http://localhost:3000/pricing',
         });
 
-        // console.log(session);
-
-        res.json({id: session.id});
-
-
+        res.json({ id: session.id });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({message:"Payment Error Error"});
+        console.error("Payment initialization error:", error);
+        return res.status(500).json({ message: "Internal Server Error during checkout setup" });
     }
-
-
 });
 
-router.get('/success/:id/:amount', async (req,res) => {
+// payment success callback || GET
+router.get('/success', async (req, res) => {
     try {
-        let plan = req.params.amount;
-        let userId = req.params.id;
+        const { session_id, userId, price } = req.query;
+
+        if (!session_id || !userId || !price) {
+            return res.status(400).send('Missing session validation parameters.');
+        }
+
+        // Prevent double crediting upon refresh
+        if (processedSessions.has(session_id)) {
+            const htmlFilePath = path.join(__dirname, '../pages/paymentSuccess.html');
+            return res.sendFile(htmlFilePath);
+        }
+
+        // Verify the payment state with Stripe directly
+        const session = await stripe.checkout.sessions.retrieve(session_id);
+        if (!session || session.payment_status !== 'paid') {
+            return res.status(400).send('Payment has not been paid or verified.');
+        }
 
         // Find the user by ID
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found.');
+        }
 
-        // Update userCredits and save the user
-        const remaining = parseInt(user.userCredits); // Assuming plan is a string, convert it to an integer
-        const planAmount = parseInt(plan);
-        const sum = remaining + planAmount;
-        await user.updateOne({userCredits : String(sum)})
+        // Map price (INR) to actual credit amounts
+        const priceToCreditsMap = {
+            49: 100,
+            99: 250,
+            199: 500
+        };
 
+        const planPrice = parseInt(price, 10);
+        const creditsToAdd = priceToCreditsMap[planPrice] || planPrice; // fallback if plan price changes
+
+        const remaining = parseInt(user.userCredits, 10) || 0;
+        user.userCredits = remaining + creditsToAdd;
         await user.save();
 
-        const htmlFilePath = path.join(__dirname, '../pages/paymentSuccess.html');
+        // Deduplicate this session
+        processedSessions.add(session_id);
 
-        // Render the HTML file
+        const htmlFilePath = path.join(__dirname, '../pages/paymentSuccess.html');
         res.sendFile(htmlFilePath);
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
+        console.error("Payment success verification error:", error);
+        res.status(500).send('Internal Server Error verifying transaction.');
     }
-})
+});
 
 module.exports = router;

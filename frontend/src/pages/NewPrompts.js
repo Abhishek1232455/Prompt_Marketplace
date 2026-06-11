@@ -89,7 +89,7 @@ const NewPrompts = () => {
           <div className="flex items-center justify-center w-full">
             {image ?
               <div className='flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-100 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600'>
-                <img src={URL.createObjectURL(image)} alt="image" className='h-64 p-2' />
+                <img src={URL.createObjectURL(image)} alt="preview" className='h-64 p-2' />
               </div>
               :
               <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-100 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">

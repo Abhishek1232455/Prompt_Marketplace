@@ -1,7 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Prompt from "../pages/Prompt";
-// import { Link } from "react-router-dom";
 
 const HomeCard = ({ name, image, category, price,  id }) => {
 
@@ -19,7 +17,6 @@ const HomeCard = ({ name, image, category, price,  id }) => {
 
     const handleClick = (id) =>{
         navigate(`/prompt/${id}`);
-        window.location.reload();
     }
 
     return (

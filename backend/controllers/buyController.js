@@ -10,8 +10,29 @@ const buyPrompt = async (req, res) =>{
 
         const promptToPurchase = await Prompt.findById(prompt);
         
-        // console.log(promptToPurchase);
+        if (!promptToPurchase) {
+            return res.status(404).send({
+                success: false,
+                message: "Prompt not found"
+            });
+        }
+
         const promptPrice = promptToPurchase.price;
+
+        if (existingUser.prompts.includes(prompt)) {
+            return res.status(400).send({
+                success: false,
+                message: "You already own this prompt!"
+            });
+        }
+
+        if (existingUser.userCredits < promptPrice) {
+            return res.status(400).send({
+                success: false,
+                message: "Insufficient credits to purchase this prompt!"
+            });
+        }
+
         existingUser.userCredits -= promptPrice;
 
         existingUser.prompts.push(prompt);
@@ -30,7 +51,7 @@ const buyPrompt = async (req, res) =>{
           });
     } catch (error) {
         console.log(error)
-        return res.status(404).send({
+        return res.status(500).send({
             success: false,
             message: 'Server Error!',
         })

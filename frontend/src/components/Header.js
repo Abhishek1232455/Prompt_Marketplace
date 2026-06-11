@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GiNinjaHead } from "react-icons/gi";
 import { HiMiniCommandLine } from "react-icons/hi2";
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutRedux } from '../redux/userSlice';
+import { logoutRedux } from '../redux/authRedux/authSlice';
 import toast from 'react-hot-toast';
 import { GiToken } from "react-icons/gi";
 

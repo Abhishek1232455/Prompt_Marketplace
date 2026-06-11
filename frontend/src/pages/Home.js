@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Slider from '../components/Slider';
 import HorizontalSlide from '../components/HorizontalSlide';
@@ -7,10 +7,7 @@ import CategorySlider from '../components/CategorySlider';
 
 function Home( {setCategory}) {
   
-  const userData = useSelector((state) => state.auth)
   const promptData = useSelector((state) => state.prompts)
-  // const dispatch = useDispatch();
-  // console.log(promptData);
   
   return (
     <div>
