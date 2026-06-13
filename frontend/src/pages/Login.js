@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { BiHide, BiShowAlt } from "react-icons/bi";
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginRedux } from '../redux/authRedux/authSlice';
 
 const Login = () => {
@@ -10,6 +10,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,7 +35,7 @@ const Login = () => {
                 toast.success((response.user?.firstName || "User") + " " + response.message);
 
                 dispatch(loginRedux(response.user))
-                window.location.replace('/');
+                navigate('/');
             } else {
                 toast.error(response.message);
                 return;
@@ -43,50 +44,49 @@ const Login = () => {
     }
 
     return (
-        <div className='p-3 md:p-4'>
-            <div className="w-full rounded-xl max-w-sm bg-white m-auto flex items-center flex-col p-4 shadow-md">
-                <h1 className='text-center text-2xl font-bold mt-2'>Log In</h1>
-                <div className="w-24 h-24 my-2 overflow-hidden rounded-full border border-gray-150">
-                    <img src="/assets/user.gif" alt="user avatar" className="w-full h-full object-cover" />
+        <div className='py-24 px-4 flex items-center justify-center min-h-[80vh] bg-[#FAF8F5]'>
+            <div className="w-full max-w-md glass-card bg-white border border-stone-200/60 rounded-3xl p-8 shadow-xl flex flex-col gap-6">
+                <div className="text-center">
+                    <h1 className='text-3xl font-extrabold text-stone-900 tracking-tight'>Log In</h1>
+                    <p className="text-xs text-stone-500 mt-1.5 font-normal">Welcome back! Sign in to manage your collection.</p>
                 </div>
 
-                <form className='mb-5 flex flex-col w-full px-4' onSubmit={handleSubmit}>
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text">Email</span>
-                        </label>
+                <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-bold text-stone-700">Email Address</label>
                         <input
                             type="email"
-                            placeholder="yourname@example.com"
-                            className="input input-bordered w-full text-sm bg-gray-50"
+                            placeholder="name@example.com"
+                            className="w-full text-xs px-3.5 py-2.5 rounded-xl glass-input"
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
                             required
                         />
                     </div>
-                    <div className='form-control w-full mt-3 relative'>
-                        <label className="label">
-                            <span className="label-text">Password</span>
-                        </label>
-                        <div className='flex relative w-full'>
+                    
+                    <div className='flex flex-col gap-1.5 relative'>
+                        <label className="text-xs font-bold text-stone-700">Password</label>
+                        <div className='relative w-full'>
                             <input
                                 type={showPassword ? "text" : "password"}
                                 placeholder="••••••••"
-                                className="input input-bordered w-full text-sm bg-gray-50 pr-10"
+                                className="w-full text-xs px-3.5 py-2.5 rounded-xl glass-input pr-10"
                                 onChange={(e) => setPassword(e.target.value)}
                                 value={password}
                                 required
                             />
-                            <span className='absolute right-3 top-1/2 transform -translate-y-1/2 text-xl cursor-pointer text-gray-500' onClick={() => setShowPassord((prev) => !prev)}>
+                            <span className='absolute right-3.5 top-1/2 transform -translate-y-1/2 text-stone-400 cursor-pointer text-lg' onClick={() => setShowPassord((prev) => !prev)}>
                                 {showPassword ? <BiHide /> : <BiShowAlt />}
                             </span>
                         </div>
                     </div>
-                    <div className='flex justify-center items-center mt-6'>
-                        <button className="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white w-full">LOGIN</button>
-                    </div>
-                    <div className='mt-4 text-center text-sm text-gray-600'>
-                        Create a new account? <Link to={"/signup"} className='text-indigo-600 hover:underline'>Signup</Link>
+                    
+                    <button className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors shadow-md mt-4">
+                        SIGN IN
+                    </button>
+                    
+                    <div className='text-center text-xs text-stone-550 mt-2 font-medium'>
+                        Don't have an account? <Link to={"/signup"} className='text-emerald-600 hover:underline'>Create Account</Link>
                     </div>
                 </form>
             </div>

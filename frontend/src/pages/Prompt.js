@@ -125,141 +125,191 @@ const Prompt = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8">
+    <div className="max-w-7xl mx-auto p-4 md:p-8 text-stone-900">
       {showModal && (
         <Modal getData={getData} setShowModal={setShowModal} data={data} setData={setData} userData={userData.user} />
       )}
 
       {data._id ? (
-        <div>
-          {/* Main Card */}
-          <div className="card lg:card-side bg-base-100 shadow-xl overflow-hidden mb-8">
-            <figure className="lg:w-1/2">
-              <img src={data.imageUrl} alt={data.name} className="h-[400px] w-full object-cover" />
-            </figure>
-            <div className="card-body lg:w-1/2">
-              <h2 className="card-title text-3xl font-bold flex flex-wrap gap-2 items-center">
-                {data.name}
-                <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">{data.category}</span>
-              </h2>
-              <div className="divider my-1"></div>
-              <h3 className="text-xl font-semibold text-gray-700">About Prompt</h3>
-              <p className="text-gray-650 leading-relaxed max-w-[700px]">{data.promptDescription}</p>
-
-              {data.promptData !== "Login To access" && data.promptData !== "Unauthorized" ? (
-                <div className="mt-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-lg font-semibold text-gray-700">Prompt Template</span>
-                    <button onClick={handleCopy} className="btn btn-outline btn-xs flex gap-1 items-center bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border-blue-200">
-                      <FaRegCopy size={12} /> Copy Template
-                    </button>
-                  </div>
-                  <div className="max-h-[150px] overflow-y-auto block p-4 text-sm font-mono text-gray-800 bg-gray-50 rounded-lg border border-gray-200 whitespace-pre-wrap">
-                    {data.promptData}
+        <div className="flex flex-col gap-10">
+          {/* Main Double Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            {/* Left Column: Info & Template (7 cols on large screens) */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
+              <div className="glass-card bg-white border border-stone-200/60 rounded-3xl p-6 md:p-8 flex flex-col gap-6 shadow-md">
+                
+                {/* Image and Title Header */}
+                <div className="flex flex-col sm:flex-row gap-6 items-start">
+                  <img 
+                    src={data.imageUrl} 
+                    alt={data.name} 
+                    className="w-full sm:w-44 h-44 object-cover rounded-2xl border border-stone-200 shadow-sm" 
+                    onError={(e) => {
+                        e.target.onError = null;
+                        e.target.src = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80";
+                    }}
+                  />
+                  <div className="flex-1 flex flex-col gap-3">
+                    <span className="self-start bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-100/40">
+                      {data.category}
+                    </span>
+                    <h2 className="text-xl sm:text-2xl font-extrabold text-stone-900 tracking-tight leading-tight">
+                      {data.name}
+                    </h2>
+                    <p className="text-xs text-stone-500 font-normal leading-relaxed">
+                      {data.promptDescription}
+                    </p>
                   </div>
                 </div>
+
+                <div className="border-t border-stone-100 pt-6">
+                  {data.promptData !== "Login To access" && data.promptData !== "Unauthorized" ? (
+                    <div className="flex flex-col gap-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs font-bold text-stone-750">Template Blueprint</span>
+                        <button 
+                          onClick={handleCopy} 
+                          className="px-3 py-1.5 rounded-lg border border-emerald-500/30 text-emerald-600 bg-emerald-50 hover:bg-emerald-600 hover:text-white font-bold text-xs transition-all flex items-center gap-1.5"
+                        >
+                          <FaRegCopy size={11} /> Copy Template
+                        </button>
+                      </div>
+                      <div className="p-4 text-xs font-mono text-stone-200 bg-stone-950 rounded-xl border border-stone-850 whitespace-pre-wrap max-h-[200px] overflow-y-auto leading-relaxed">
+                        {data.promptData}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between p-4 bg-stone-50 border border-stone-200/60 rounded-2xl mt-4">
+                      <div className="text-xs text-stone-500 font-medium">
+                        Credits Required: <span className="text-base font-bold text-emerald-600">{data.price} Credits</span>
+                      </div>
+                      <button 
+                        onClick={handleBuyNow} 
+                        type="button" 
+                        className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-all shadow-md"
+                      >
+                        Unlock Template
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: AI Playground Sandbox (5 cols on large screens) */}
+            <div className="lg:col-span-5 flex flex-col">
+              {data.promptData !== "Login To access" && data.promptData !== "Unauthorized" ? (
+                <div className="glass-card bg-white border border-stone-200/60 rounded-3xl p-6 md:p-8 flex flex-col gap-6 h-full shadow-md">
+                  <div>
+                    <h2 className="text-lg font-bold text-stone-900 tracking-tight flex items-center gap-2">
+                      <FaTerminal className="text-emerald-600 animate-pulse text-base" />
+                      Playtest Sandbox
+                    </h2>
+                    <p className="text-[11px] text-stone-500 mt-1 leading-relaxed">
+                      Substitutes inputs below into your template parameters and executes them dynamically using Google Gemini.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-4 flex-1">
+                    <div className="flex flex-col gap-3 max-h-[260px] overflow-y-auto pr-1">
+                      {promptVariables.length > 0 ? (
+                        promptVariables.map(varName => (
+                          <div key={varName} className="flex flex-col gap-1.5">
+                            <label className="text-xs font-bold text-stone-700 capitalize">{varName}</label>
+                            <input
+                              type="text"
+                              placeholder={`Enter dynamic value...`}
+                              className="w-full text-xs px-3.5 py-2.5 rounded-xl glass-input"
+                              value={sandboxVariables[varName] || ""}
+                              onChange={(e) => handleVariableChange(varName, e.target.value)}
+                            />
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-xs text-stone-550 py-8 text-center border border-dashed border-stone-200 rounded-2xl bg-stone-50/20">
+                          Static Template (No variables required).
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={handleExecuteSandbox}
+                      disabled={sandboxLoading}
+                      className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-xs flex items-center justify-center gap-2 mt-auto border border-emerald-500/10"
+                    >
+                      {sandboxLoading ? (
+                        <>
+                          <span className="loading loading-spinner loading-xs"></span> Submitting payload...
+                        </>
+                      ) : (
+                        <>
+                          <FaPlay size={9} /> Run Playtest
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Terminal Output */}
+                  <div className="flex flex-col gap-2 mt-4">
+                    <span className="text-[11px] font-bold text-stone-500">Terminal Output Console</span>
+                    <div className="h-44 overflow-y-auto bg-[#0a0f0d] border border-stone-850 rounded-xl p-4 font-mono text-[11px] leading-relaxed text-emerald-400 shadow-inner whitespace-pre-wrap">
+                      {sandboxResponse ? (
+                        sandboxResponse
+                      ) : sandboxLoading ? (
+                        <span className="text-emerald-500 animate-pulse">Connecting to Gemini API Gateway...</span>
+                      ) : (
+                        <span className="text-stone-600 italic">Playground idle. Configure variables and click "Run Playtest" to execute request.</span>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
               ) : (
-                <div className="flex items-center justify-between p-4 bg-gray-55 border rounded-xl mt-auto">
-                  <div className="text-xl font-semibold text-indigo-600">Credits required: {data.price}</div>
-                  <button onClick={handleBuyNow} type="button" className="btn btn-indigo text-white bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700">
-                    BUY NOW
-                  </button>
+                <div className="glass-card bg-white border border-stone-200/60 rounded-3xl p-8 flex flex-col items-center justify-center text-center gap-4 h-full shadow-md">
+                  <FaTerminal className="text-stone-400 text-4xl" />
+                  <h3 className="text-lg font-bold text-stone-900">Interactive Sandbox Locked</h3>
+                  <p className="text-xs text-stone-500 max-w-xs leading-relaxed">
+                    Purchase this template using credits to unlock prompt testing and run custom payloads directly on Gemini LLM.
+                  </p>
                 </div>
               )}
             </div>
           </div>
 
-          {/* AI Playground Sandbox (Only displayed if user owns the prompt) */}
-          {data.promptData !== "Login To access" && data.promptData !== "Unauthorized" && (
-            <div className="bg-white shadow-xl rounded-2xl p-6 mb-8 border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2 mb-4">
-                <FaTerminal className="text-indigo-600 animate-pulse" /> AI Interactive Playground Sandbox
-              </h2>
-              <p className="text-sm text-gray-500 mb-6">
-                Test this prompt template in real-time. Fill out the variables parsed from the template to run it on Google's Gemini LLM.
-              </p>
-
-              <div className="grid lg:grid-cols-2 gap-8">
-                {/* Inputs Column */}
-                <div className="flex flex-col gap-4">
-                  <h3 className="font-semibold text-gray-700 border-b pb-2">Variables Input</h3>
-                  {promptVariables.length > 0 ? (
-                    promptVariables.map(varName => (
-                      <div key={varName} className="form-control w-full">
-                        <label className="label">
-                          <span className="label-text font-medium text-gray-650 capitalize">{varName}</span>
-                        </label>
-                        <input
-                          type="text"
-                          placeholder={`Enter value for [${varName}]`}
-                          className="input input-bordered w-full text-sm bg-gray-50"
-                          value={sandboxVariables[varName] || ""}
-                          onChange={(e) => handleVariableChange(varName, e.target.value)}
-                        />
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-sm text-gray-500 py-6 text-center border-2 border-dashed border-gray-200 rounded-xl">
-                      No dynamic variables parsed. This prompt runs statically.
-                    </div>
-                  )}
-
-                  <button
-                    onClick={handleExecuteSandbox}
-                    disabled={sandboxLoading}
-                    className="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white w-full mt-4 flex items-center justify-center gap-2"
-                  >
-                    {sandboxLoading ? (
-                      <>
-                        <span className="loading loading-spinner loading-sm"></span> Processing response...
-                      </>
-                    ) : (
-                      <>
-                        <FaPlay size={12} /> Run Playground Sandbox
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* Output IDE Terminal Column */}
-                <div className="flex flex-col">
-                  <h3 className="font-semibold text-gray-700 border-b pb-2 mb-3">AI Response Output</h3>
-                  <div className="flex-1 min-h-[250px] max-h-[450px] overflow-y-auto bg-slate-900 text-slate-100 rounded-xl p-5 font-mono text-sm leading-relaxed border border-slate-800 shadow-inner whitespace-pre-wrap">
-                    {sandboxResponse ? (
-                      sandboxResponse
-                    ) : sandboxLoading ? (
-                      <span className="text-indigo-400 animate-pulse">Running execution through Gemini LLM...</span>
-                    ) : (
-                      <span className="text-slate-500 italic">Playground output terminal. Enter variables and click "Run" to test.</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* More from Category */}
-          <div className="text-3xl font-bold text-gray-800 mb-4 mt-8">
-            More from {data.category}
-          </div>
-          <div className="grid lg:grid-cols-5 gap-4 md:grid-cols-2 sm:grid-cols-1">
-            {categoryData.length > 0 ? (
-              categoryData
-                .filter(item => id !== item._id)
-                .map((item) => (
-                  <div className="m-0" key={item._id}>
-                    <HomeCard name={item.name} image={item.imageUrl} category={item.category} price={item.price} promptDescription={item.promptDescription} promptData={item.promptData} id={item._id} />
-                  </div>
-                ))
-            ) : (
-              <h1 className="text-2xl text-gray-400">Loading recommendations...</h1>
-            )}
+          <div className="border-t border-stone-200 pt-10">
+            <h3 className="text-lg font-bold text-stone-900 mb-6 tracking-tight flex items-center gap-3">
+              <span className="h-6 w-1.5 bg-emerald-500 rounded-full"></span>
+              More from Category
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {categoryData.length > 0 ? (
+                categoryData
+                  .filter(item => id !== item._id)
+                  .map((item) => (
+                    <div className="flex justify-center" key={item._id}>
+                      <HomeCard 
+                        name={item.name} 
+                        image={item.imageUrl} 
+                        category={item.category} 
+                        price={item.price} 
+                        promptDescription={item.promptDescription} 
+                        promptData={item.promptData} 
+                        id={item._id} 
+                      />
+                    </div>
+                  ))
+              ) : (
+                <h4 className="text-xs text-stone-400 italic col-span-full">Loading recommendations...</h4>
+              )}
+            </div>
           </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-          <span className="loading loading-ring loading-lg text-indigo-600"></span>
-          <h2 className="text-xl font-semibold text-gray-600">Loading prompt details...</h2>
+          <div className="w-12 h-12 rounded-full animate-spin border-4 border-solid border-emerald-500 border-t-transparent shadow-md"></div>
+          <h2 className="text-xs font-semibold text-stone-500">Loading prompt details...</h2>
         </div>
       )}
     </div>

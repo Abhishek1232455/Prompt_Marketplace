@@ -35,33 +35,67 @@ const MyCollection = () => {
   }, [])
 
   return (
-    <div>
-      <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
-        <h2 className="text-4xl font-bold text-center lg:text-left mb-8 leading-tight tracking-tight text-gray-900">My Collection</h2>
+    <div className="bg-[#FAF8F5] text-stone-900 min-h-screen py-16 px-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-12 text-center lg:text-left">
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-100/50 shadow-sm">
+            Workspace
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold mt-6 tracking-tight text-stone-900">
+            My Collection
+          </h2>
+          <p className="mt-4 text-stone-500 text-sm max-w-lg leading-relaxed">
+            Your purchased AI templates. Click on any card below to launch the playtest playground console.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 sm:grid-cols-2 gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {data.length > 0 ? (
             data.map((item) => (
               <Link
                 key={item._id}
                 to={`/prompt/${item._id}`}
-                className="relative cursor-pointer w-full flex items-end rounded-3xl justify-start text-left bg-cover bg-center"
-                style={{ height: 450, backgroundImage: `url(${item.imageUrl})` }}
+                className="group relative cursor-pointer w-full h-80 rounded-2xl overflow-hidden border border-stone-200/60 shadow-md hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-end"
               >
-                <div className="absolute top-0 mt-20 right-0 bottom-0 left-0 bg-gradient-to-b rounded-3xl from-transparent to-gray-900"></div>
-                <div className="absolute top-0 right-0 left-0 mx-5 mt-2 flex justify-between items-center rounded-3xl">
-                  <div className="bg-indigo-500 text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">{item.category}</div>
+                {/* Background image with hover zoom */}
+                <img 
+                  src={item.imageUrl} 
+                  alt={item.name} 
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                  onError={(e) => {
+                      e.target.onError = null;
+                      e.target.src = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80";
+                  }}
+                />
+                
+                {/* Translucent overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent"></div>
+                
+                {/* Category Pill Tag */}
+                <div className="absolute top-4 left-4">
+                  <span className="bg-emerald-50/95 backdrop-blur-sm text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-100/40 shadow-sm">
+                    {item.category}
+                  </span>
                 </div>
-                <main className="p-5 z-10 rounded-3xl">
-                  <div className="text-md tracking-tight font-medium leading-7 font-regular text-white hover:underline">
+                
+                {/* Info Footer */}
+                <div className="relative z-10 p-5">
+                  <h3 className="text-base font-bold text-white tracking-tight leading-tight group-hover:text-emerald-400 transition-colors">
                     {item.name}
-                  </div>
-                </main>
+                  </h3>
+                  <span className="text-[10px] text-stone-300 mt-1 block font-semibold">Launch Sandbox →</span>
+                </div>
               </Link>
             ))
           ) : (
-            <div className="col-span-full text-center py-12 text-gray-500 font-medium">
-              No Prompts Purchased Yet ...
+            <div className="col-span-full py-20 flex flex-col items-center justify-center text-stone-500 bg-white/40 border border-dashed border-stone-200/80 rounded-2xl">
+              <span className="text-sm font-bold text-stone-850">Your Collection is Empty</span>
+              <span className="text-xs text-stone-500 mt-1 max-w-xs text-center leading-relaxed">
+                You haven't unlocked any prompts yet. Head over to pricing plans to buy credits and unlock templates.
+              </span>
+              <Link to="/pricing" className="mt-6 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all">
+                Get Credits
+              </Link>
             </div>
           )}
         </div>

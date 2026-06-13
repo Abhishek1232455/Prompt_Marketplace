@@ -10,19 +10,25 @@ const giveCredits = async () => {
         await mongoose.connect(uri);
         console.log("Connected to MongoDB!");
 
-        // Find the user (Abhishek Anand)
-        const email = "abhishek1232455@gmail.com";
-        const user = await User.findOne({ email });
+        // Find the user (default to your email or command argument)
+        const email = process.argv[2] || "abhishek1232455@gmail.com";
+        let user = await User.findOne({ email });
 
         if (!user) {
-            console.log(`User with email ${email} not found.`);
-            process.exit(1);
+            // Fallback: use first user found in database
+            user = await User.findOne({});
+            if (!user) {
+                console.log("No registered users found. Please create an account in the web UI first!");
+                process.exit(1);
+            }
+            console.log(`Email "${email}" not found. Falling back to first user: ${user.email}`);
         }
 
-        user.userCredits = 100;
+        const credits = Number(process.argv[3]) || 500;
+        user.userCredits = credits;
         await user.save();
 
-        console.log(`Successfully granted 100 credits to ${user.firstName} ${user.lastName}!`);
+        console.log(`Successfully granted ${credits} credits to ${user.firstName} ${user.lastName} (${user.email})!`);
         console.log(`New balance: ${user.userCredits} credits.`);
         process.exit(0);
     } catch (err) {

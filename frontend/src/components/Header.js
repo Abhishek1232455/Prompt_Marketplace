@@ -27,53 +27,79 @@ const Header = () => {
     }
 
     return (
-        <header className='fixed shadow-md w-full h-16 px-2 md:px-4 z-50 bg-white rounded-xl'>
+        <header className='fixed top-4 left-4 right-4 h-16 px-4 md:px-8 z-50 glass-nav rounded-2xl flex items-center justify-between shadow-md border border-stone-200/50'>
             {/* desktop */}
-            <div className='flex items-center justify-between'>
-                <Link to="/">
-                    <div className='flex p-2 items-center text-center'>
-                        <HiMiniCommandLine size="3rem" className='h-full' /> <span className='text-3xl font invisible md:visible lg:visible'>Prompt Market</span>
-                    </div>
-                </Link>
-
-                <div className='flex items-center gap-4 md:gap-7'>
-                    <nav className='flex gap-4 md:gap-7 text-base md:text-lg'>
-                        <Link to={""}>Home</Link>
-                        <Link to={"categories"}>Categories</Link>
-                        <Link to={"about"}>About</Link>
-                        <Link to={"contact"}>Contact</Link>
-                    </nav>
-                    {user && <div className='flex'>
-                        <button className="relative inline-flex items-center justify-center p-0.5 mb-1 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
-                            <Link to={"/userPrompts"} className="relative rounded-full px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 group-hover:bg-opacity-0 md:text-xs sm:text-xs">
-                                Your Collection
-                            </Link>
-                        </button>
-                        <Link to={"/pricing"} className=" cursor-pointer flex justify-center items-center gap-2 p-2 px-4 font-medium bg-white">
-                            <GiToken />
-                            <div>
-                                {user?.userCredits}
-                            </div>
-                            Credits
-                        </Link>
-                    </div>
-                    }
-                    <div className="text-2xl" onClick={() => setShowMenu(prev => !prev)}>
-                        <div className="border-2  cursor-pointer border-solid border-black p-1 rounded-full">
-                            <GiNinjaHead />
+            <div className='flex items-center justify-between w-full'>
+                <div className="flex items-center gap-3">
+                    <Link to="/">
+                        <div className='flex items-center gap-2 text-stone-900 hover:opacity-90 transition-opacity'>
+                            <HiMiniCommandLine size="2rem" className='text-emerald-600' />
+                            <span className='text-xl font-bold tracking-tight bg-gradient-to-r from-stone-900 to-stone-600 bg-clip-text text-transparent font-sans'>
+                                PromptForge
+                            </span>
                         </div>
-                        {showMenu &&
-                            <div className="absolute right-10 rounded-xl text-base bg-white py-2 shadow drop-shadow-md flex flex-col gap-2">
-                                {user && <div className='link link-success text-center px-2'>{user.firstName}</div>}
-                                {user?.role === "Admin" && <Link to={"newprompts"} className='whitespace-nowrap cursor-pointer px-4'>Add new Prompts</Link>}
+                    </Link>
+                </div>
+
+                <div className='flex items-center gap-4 md:gap-6'>
+                    <nav className='hidden md:flex gap-6 md:gap-8 text-sm font-semibold text-stone-600'>
+                        <Link to={""} className="hover:text-emerald-600 transition-colors">Home</Link>
+                        <Link to={"categories"} className="hover:text-emerald-600 transition-colors">Categories</Link>
+                        <Link to={"about"} className="hover:text-emerald-600 transition-colors">About</Link>
+                        <Link to={"contact"} className="hover:text-emerald-600 transition-colors">Contact</Link>
+                    </nav>
+                    
+                    {user && (
+                        <div className='flex items-center gap-3'>
+                            <Link to={"/userPrompts"} className="hidden sm:inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold text-white rounded-full bg-emerald-600 hover:bg-emerald-500 transition-all shadow-sm">
+                                My Collection
+                            </Link>
+                            <Link to={"/pricing"} className="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-amber-800 bg-amber-50 border border-amber-100 hover:border-amber-350 rounded-full transition-all">
+                                <GiToken className="text-amber-600 text-sm animate-bounce" />
+                                <span>{user?.userCredits} Credits</span>
+                            </Link>
+                        </div>
+                    )}
+
+                    <div className="relative text-2xl" onClick={() => setShowMenu(prev => !prev)}>
+                        <div className="border border-stone-200 cursor-pointer p-1.5 rounded-full bg-white hover:border-emerald-500 transition-colors flex items-center justify-center shadow-sm">
+                            <GiNinjaHead className="text-emerald-600 text-lg" />
+                        </div>
+                        {showMenu && (
+                            <div className="absolute right-0 mt-3 w-48 rounded-xl text-sm bg-white border border-stone-200 py-2 shadow-xl flex flex-col gap-1 z-50 text-stone-700">
+                                {user && (
+                                    <div className='text-xs font-bold text-stone-500 px-4 py-1 border-b border-stone-100 text-center mb-1'>
+                                        Hi, {user.firstName}
+                                    </div>
+                                )}
+                                <Link to={""} className='md:hidden block px-4 py-2 hover:bg-stone-50 text-stone-700 hover:text-emerald-600 transition-colors'>Home</Link>
+                                <Link to={"categories"} className='md:hidden block px-4 py-2 hover:bg-stone-50 text-stone-700 hover:text-emerald-600 transition-colors'>Categories</Link>
+                                <Link to={"about"} className='md:hidden block px-4 py-2 hover:bg-stone-50 text-stone-700 hover:text-emerald-600 transition-colors'>About</Link>
+                                <Link to={"contact"} className='md:hidden block px-4 py-2 hover:bg-stone-50 text-stone-700 hover:text-emerald-600 transition-colors'>Contact</Link>
+                                {user && (
+                                    <Link to={"/userPrompts"} className='sm:hidden block px-4 py-2 hover:bg-stone-50 text-stone-700 hover:text-emerald-600 transition-colors'>
+                                        My Collection
+                                    </Link>
+                                )}
+                                {user?.role === "Admin" && (
+                                    <Link to={"newprompts"} className='px-4 py-2 hover:bg-stone-50 text-stone-700 hover:text-emerald-600 transition-colors block'>
+                                        Add new Prompts
+                                    </Link>
+                                )}
                             </div>
-                        }
+                        )}
                     </div>
-                    {user ? <p onClick={handleLogOut} className='btn btn-outline btn-error btn-sm'>Logout</p> : <Link to={"login"} className='btn btn-outline btn-info btn-sm px-2'>LogIn</Link>}
+                    {user ? (
+                        <button onClick={handleLogOut} className='btn btn-outline btn-error btn-xs rounded-full px-3 font-semibold'>
+                            Logout
+                        </button>
+                    ) : (
+                        <Link to={"login"} className='btn btn-outline btn-info btn-xs rounded-full px-4 font-semibold'>
+                            LogIn
+                        </Link>
+                    )}
                 </div>
             </div>
-
-            {/* Mobile */}
         </header>
     )
 }

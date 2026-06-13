@@ -21,14 +21,6 @@ const samplePrompts = [
         promptData: encryptPrompt("Act as an expert software architect. Review the following code and refactor it for clean code, readability, performance, and SOLID principles. Explain your changes: [YourCodeHere]")
     },
     {
-        name: "UI/UX Design Critic",
-        price: 15,
-        category: "Chatgpt",
-        imageUrl: "https://images.unsplash.com/photo-1561070791-26c113006238?auto=format&fit=crop&w=600&q=80",
-        promptDescription: "Provides detailed structural feedback and critique on layout, typography, colors, and accessibility for any digital user experience design.",
-        promptData: encryptPrompt("Analyze the following UI copy and layout description. Provide a critical critique on user experience, visual hierarchy, alignment, contrast, and cognitive load: [DesignDetails]")
-    },
-    {
         name: "Virtual Technical Interviewer",
         price: 25,
         category: "Chatgpt",
@@ -204,7 +196,7 @@ const samplePrompts = [
         name: "Sticker Vector Art",
         price: 20,
         category: "MidJourney",
-        imageUrl: "https://images.unsplash.com/photo-1572375995501-4b0894dbe341?auto=format&fit=crop&w=600&q=80",
+        imageUrl: "https://images.unsplash.com/photo-1601987077677-5346c0c57d3f?auto=format&fit=crop&w=600&q=80",
         promptDescription: "Creates cute, die-cut vector stickers of characters or objects with clean white borders.",
         promptData: encryptPrompt("A die-cut cute sticker design of a [StickerSubject], bold outlines, pastel colors, white outline, vector graphic style, high contrast, clean background --v 6.0")
     },
@@ -212,7 +204,7 @@ const samplePrompts = [
         name: "Cinematic Landscape Photo",
         price: 35,
         category: "MidJourney",
-        imageUrl: "https://images.unsplash.com/photo-1472214222541-d510753a4907?auto=format&fit=crop&w=600&q=80",
+        imageUrl: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=80",
         promptDescription: "Produce atmospheric, wide-angle landscape photography prints.",
         promptData: encryptPrompt("Cinematic wide-angle photo of [Location], during golden hour, mist rolling over mountains, ultra-detailed, captured on 35mm lens, f/8, photorealistic, National Geographic style --v 6.0")
     },
@@ -294,7 +286,7 @@ const samplePrompts = [
         name: "Product Pitch Writer",
         price: 15,
         category: "Copyai",
-        imageUrl: "https://images.unsplash.com/photo-1542744094-3a31f103e35f?auto=format&fit=crop&w=600&q=80",
+        imageUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80",
         promptDescription: "Create a 30-second elevator pitch targeting prospective venture capital investors.",
         promptData: encryptPrompt("Write a 30-second elevator pitch for a startup that offers [ProductFeatures]. Target audience: VCs. Keep it under 150 words and focus on growth scalability.")
     },
@@ -508,7 +500,7 @@ const samplePrompts = [
         name: "TypeScript Algorithm Solver",
         price: 15,
         category: "GitHub Copilot",
-        imageUrl: "https://images.unsplash.com/photo-1516116211223-5c359a36298a?auto=format&fit=crop&w=600&q=80",
+        imageUrl: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=600&q=80",
         promptDescription: "An efficient Copilot code comment template to prompt the compiler to generate clean, typed, and unit-tested algorithm implementations.",
         promptData: encryptPrompt("// Write a highly optimized TypeScript function to solve [AlgorithmName]. Ensure O(N) time complexity, handle edge cases, and add type safety interfaces: ")
     },
@@ -580,7 +572,7 @@ const samplePrompts = [
         name: "Git Commit Message Structurer",
         price: 10,
         category: "GitHub Copilot",
-        imageUrl: "https://images.unsplash.com/photo-1556075798-482a21675249?auto=format&fit=crop&w=600&q=80",
+        imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80",
         promptDescription: "Generate semantic commit messages based on diff text.",
         promptData: encryptPrompt("# Write a semantic git commit message following Conventional Commits format based on the following diff summary: [CodeDiffSummary]")
     }

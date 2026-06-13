@@ -14,129 +14,162 @@ const Slider = () => {
     }
     // console.log(promptData);
 
+    if (!promptData || promptData.length < 3) {
+        return (
+            <div className="py-12 text-center text-slate-500 bg-slate-900/25 border border-slate-800 rounded-2xl">
+                <span className="text-sm font-medium">Loading weekly popular prompts...</span>
+            </div>
+        );
+    }
+
     return (
-        <div>
-            <div className="min-h-screen bg-gray-100 relative">
+        <div className="py-12 relative overflow-hidden rounded-3xl border border-stone-200/60 bg-white/50 backdrop-blur-md shadow-sm">
+            <div className="flex flex-col lg:flex-row items-center gap-12 px-8 lg:px-16 min-h-[500px]">
+                {/* Left Intro Text Column */}
+                <div className="flex-1 text-center lg:text-left">
+                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-100/60">
+                        Top Picks
+                    </span>
+                    <h1 className='text-3xl sm:text-5xl font-extrabold text-stone-900 mt-5 tracking-tight leading-tight'>
+                        Most Popular <br />
+                        <span className="text-gradient">This Week</span>
+                    </h1>
+                    <p className='mt-4 text-stone-500 max-w-md text-sm sm:text-base leading-relaxed font-normal'>
+                        Explore the highest-rated templates voted by the community and add them to your playtest collection.
+                    </p>
+                </div>
 
-                <h1 className='text-3xl absolute left-40 top-64 sm:text-5xl block font-extrabold text-slate-500'>Most Popular This Week.
-
-                    <p className='mt-4 sm:text-xl block font-mono text-black'>Find the Latest Prompts of the week</p>
-                    <p className='sm:text-xl block font-mono text-black'>and add it to your collection</p>
-                </h1>
-                <div className="w-96 mx-auto" style={{ scrollSnapType: 'x mandatory' }}>
-                    <div className>
+                {/* Right Carousel Column */}
+                <div className="relative w-full max-w-sm shrink-0 h-[420px] flex items-center justify-center">
+                    {/* Item 1 */}
+                    <div>
                         <input className="sr-only peer" type="radio" name="carousel" id="carousel-1" defaultChecked />
-                        <div className="w-96 absolute top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg transition-all duration-300 opacity-0 peer-checked:opacity-100 peer-checked:z-10 z-0">
-                            <img className="rounded-t-lg w-96 h-64" src={promptData[0]?.imageUrl} alt="popular prompt" />
-                            
-                            <div className="py-4 px-8">
-                                <h1 className="hover:cursor-pointe  r mt-2 text-gray-900 font-bold text-2xl tracking-tight">
+                        <div className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-card bg-white/95 rounded-2xl border border-stone-200/60 shadow-xl transition-all duration-300 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto peer-checked:z-10 z-0 overflow-hidden">
+                            <img 
+                                className="w-full h-48 object-cover" 
+                                src={promptData[0]?.imageUrl} 
+                                alt={promptData[0]?.name} 
+                                onError={(e) => {
+                                    e.target.onError = null;
+                                    e.target.src = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80";
+                                }}
+                            />
+                            <div className="p-6">
+                                <span className="bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-100/40">
+                                    {promptData[0]?.category}
+                                </span>
+                                <h3 className="mt-3 text-base font-bold text-stone-900 tracking-tight">
                                     {promptData[0]?.name}
-                                </h1>
-                                <div>
-                            <span className="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">{promptData[0]?.category}</span>
-                            </div>
-                                <p className="hover:cursor-pointer py-3 text-gray-600 leading-6">
-                                    Credit :  {promptData[0]?.price}
+                                </h3>
+                                <p className="mt-1.5 text-xs text-stone-500 font-medium">
+                                    Cost: <span className="text-emerald-600 font-bold">{promptData[0]?.price} Credits</span>
                                 </p>
-                                <button type="button"
-                                onClick={()=>handleClick(promptData[0]?._id)}
-                                 className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                    View
+                                <button 
+                                    type="button"
+                                    onClick={() => handleClick(promptData[0]?._id)}
+                                    className="mt-4 w-full px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors shadow-sm"
+                                >
+                                    Get Template
                                 </button>
                             </div>
-                            <div className="absolute top-1/2 w-full flex justify-between z-20">
-                                <label htmlFor="carousel-3" className="inline-block text-red-600 cursor-pointer -translate-x-5 bg-white rounded-full shadow-md active:translate-y-0.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clipRule="evenodd" />
-                                    </svg>
+                            <div className="absolute top-1/3 w-full flex justify-between px-3 z-20 pointer-events-auto">
+                                <label htmlFor="carousel-3" className="w-8 h-8 rounded-full bg-white hover:bg-stone-50 text-stone-700 flex items-center justify-center cursor-pointer border border-stone-200 shadow-md text-lg font-bold">
+                                    ‹
                                 </label>
-                                <label htmlFor="carousel-2" className="inline-block text-red-600 cursor-pointer translate-x-5 bg-white rounded-full shadow-md active:translate-y-0.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
-                                    </svg>
+                                <label htmlFor="carousel-2" className="w-8 h-8 rounded-full bg-white hover:bg-stone-50 text-stone-700 flex items-center justify-center cursor-pointer border border-stone-200 shadow-md text-lg font-bold">
+                                    ›
                                 </label>
                             </div>
                         </div>
                     </div>
+
+                    {/* Item 2 */}
                     <div>
                         <input className="sr-only peer" type="radio" name="carousel" id="carousel-2" />
-                        <div
-                            className="w-96 absolute top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg transition-all duration-300 opacity-0 peer-checked:opacity-100 peer-checked:z-10 z-0">
-                            <img className="rounded-t-lg w-96 h-64" src={promptData[1]?.imageUrl} alt="popular prompt" />
-                            <div className="py-4 px-8">
-                                <h1 className="hover:cursor-pointe  r mt-2 text-gray-900 font-bold text-2xl tracking-tight">
+                        <div className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-card bg-white/95 rounded-2xl border border-stone-200/60 shadow-xl transition-all duration-300 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto peer-checked:z-10 z-0 overflow-hidden">
+                            <img 
+                                className="w-full h-48 object-cover" 
+                                src={promptData[1]?.imageUrl} 
+                                alt={promptData[1]?.name} 
+                                onError={(e) => {
+                                    e.target.onError = null;
+                                    e.target.src = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80";
+                                }}
+                            />
+                            <div className="p-6">
+                                <span className="bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-100/40">
+                                    {promptData[1]?.category}
+                                </span>
+                                <h3 className="mt-3 text-base font-bold text-stone-900 tracking-tight">
                                     {promptData[1]?.name}
-                                </h1>
-                                <div>
-                            <span className="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">{promptData[1]?.category}</span>
-                            </div>
-                                <p className="hover:cursor-pointer py-3 text-gray-600 leading-6">
-                                    Credit :  {promptData[1]?.price}
+                                </h3>
+                                <p className="mt-1.5 text-xs text-stone-500 font-medium">
+                                    Cost: <span className="text-emerald-600 font-bold">{promptData[1]?.price} Credits</span>
                                 </p>
-                                <button type="button"
-                                onClick={()=>handleClick(promptData[1]?._id)}
-                                className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                    View
+                                <button 
+                                    type="button"
+                                    onClick={() => handleClick(promptData[1]?._id)}
+                                    className="mt-4 w-full px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors shadow-sm"
+                                >
+                                    Get Template
                                 </button>
                             </div>
-                             <div className="absolute top-1/2 w-full flex justify-between z-20">
-                                <label htmlFor="carousel-1" className="inline-block text-blue-600 cursor-pointer -translate-x-5 bg-white rounded-full shadow-md active:translate-y-0.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clipRule="evenodd" />
-                                    </svg>
+                            <div className="absolute top-1/3 w-full flex justify-between px-3 z-20 pointer-events-auto">
+                                <label htmlFor="carousel-1" className="w-8 h-8 rounded-full bg-white hover:bg-stone-50 text-stone-700 flex items-center justify-center cursor-pointer border border-stone-200 shadow-md text-lg font-bold">
+                                    ‹
                                 </label>
-                                <label htmlFor="carousel-3" className="inline-block text-blue-600 cursor-pointer translate-x-5 bg-white rounded-full shadow-md active:translate-y-0.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
-                                    </svg>
+                                <label htmlFor="carousel-3" className="w-8 h-8 rounded-full bg-white hover:bg-stone-50 text-stone-700 flex items-center justify-center cursor-pointer border border-stone-200 shadow-md text-lg font-bold">
+                                    ›
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <div className>
+                    {/* Item 3 */}
+                    <div>
                         <input className="sr-only peer" type="radio" name="carousel" id="carousel-3" />
-                        <div
-                            className="w-96 absolute top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg transition-all duration-300 opacity-0 peer-checked:opacity-100 peer-checked:z-10 z-0">
-                            <img className="rounded-t-lg w-96 h-64" src={promptData[2]?.imageUrl} alt="popular prompt" />
-                            <div className="py-4 px-8">
-                                <h1 className="hover:cursor-pointe  r mt-2 text-gray-900 font-bold text-2xl tracking-tight">
+                        <div className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-card bg-white/95 rounded-2xl border border-stone-200/60 shadow-xl transition-all duration-300 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto peer-checked:z-10 z-0 overflow-hidden">
+                            <img 
+                                className="w-full h-48 object-cover" 
+                                src={promptData[2]?.imageUrl} 
+                                alt={promptData[2]?.name} 
+                                onError={(e) => {
+                                    e.target.onError = null;
+                                    e.target.src = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80";
+                                }}
+                            />
+                            <div className="p-6">
+                                <span className="bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-100/40">
+                                    {promptData[2]?.category}
+                                </span>
+                                <h3 className="mt-3 text-base font-bold text-stone-900 tracking-tight">
                                     {promptData[2]?.name}
-                                </h1>
-                                <div>
-                            <span className="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">{promptData[2]?.category}</span>
-                            </div>
-                                <p className="hover:cursor-pointer py-3 text-gray-600 leading-6">
-                                    Credit :  {promptData[2]?.price}
+                                </h3>
+                                <p className="mt-1.5 text-xs text-stone-500 font-medium">
+                                    Cost: <span className="text-emerald-600 font-bold">{promptData[2]?.price} Credits</span>
                                 </p>
-                                <button type="button"
-                                onClick={()=>handleClick(promptData[2]?._id)}
-                                className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                                    View
+                                <button 
+                                    type="button"
+                                    onClick={() => handleClick(promptData[2]?._id)}
+                                    className="mt-4 w-full px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors shadow-sm"
+                                >
+                                    Get Template
                                 </button>
                             </div>
-                            <div className="absolute top-1/2 w-full flex justify-between z-20">
-                                <label htmlFor="carousel-2" className="inline-block text-yellow-600 cursor-pointer -translate-x-5 bg-white rounded-full shadow-md active:translate-y-0.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clipRule="evenodd" />
-                                    </svg>
+                            <div className="absolute top-1/3 w-full flex justify-between px-3 z-20 pointer-events-auto">
+                                <label htmlFor="carousel-2" className="w-8 h-8 rounded-full bg-white hover:bg-stone-50 text-stone-700 flex items-center justify-center cursor-pointer border border-stone-200 shadow-md text-lg font-bold">
+                                    ‹
                                 </label>
-                                <label htmlFor="carousel-1" className="inline-block text-yellow-600 cursor-pointer translate-x-5 bg-white rounded-full shadow-md active:translate-y-0.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
-                                    </svg>
+                                <label htmlFor="carousel-1" className="w-8 h-8 rounded-full bg-white hover:bg-stone-50 text-stone-700 flex items-center justify-center cursor-pointer border border-stone-200 shadow-md text-lg font-bold">
+                                    ›
                                 </label>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
-
         </div>
-    )
+    );
 }
 
 export default Slider

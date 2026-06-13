@@ -21,10 +21,17 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
-      <div><Toaster /></div>
+    <div className="bg-[#FAF8F5] text-stone-900 min-h-screen relative overflow-hidden font-sans">
+      {/* Background Glowing Blobs */}
+      <div className="glow-blob glow-purple top-10 left-10"></div>
+      <div className="glow-blob glow-blue top-1/2 right-10"></div>
+      <div className="glow-blob glow-cyan bottom-10 left-1/3"></div>
+
+      <div className="relative z-10">
+        <Toaster />
+      </div>
       <Header />
-      <main className='pt-16 bg-slate-100 min-h-[calc(100vh)]'>
+      <main className="pt-16 min-h-screen relative z-10">
         <Outlet />
       </main>
     </div>

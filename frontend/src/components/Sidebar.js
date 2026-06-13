@@ -37,106 +37,88 @@ const Sidebar = () => {
     }, [cat])
 
     return (
-        <div>
-            <div className="min-h-screen flex flex-row bg-gray-100">
-                <div className="flex flex-col w-56 bg-white overflow-hidden">
-                    <div className="flex items-center justify-center h-20 shadow-md">
-                        <h1 className="text-3xl uppercase text-gray-800">Categories</h1>
+        <div className="w-full min-h-screen bg-[#FAF8F5]">
+            <div className="flex flex-col md:flex-row min-h-screen">
+                {/* Left Side Navigation Panel */}
+                <div className="w-full md:w-60 bg-white/70 backdrop-blur-md border-b md:border-b-0 md:border-r border-stone-200/50 p-4 shrink-0">
+                    <div className="h-16 flex items-center px-2 mb-6">
+                        <h2 className="text-lg font-bold tracking-wider text-stone-850 uppercase">
+                            Platforms
+                        </h2>
                     </div>
-                    <ul className="flex flex-col py-4">
-                        <li>
-                            <div
-                                onClick={() => {dispatch(setCat("Chatgpt")); getdata("Chatgpt")}}
-                                className={cat === "Chatgpt" ?
-                                    "flex text-lg  font-medium bg-slate-500 text-white cursor-pointer -ml-3 pl-10 flex-row items-center h-12 "
-                                    :
-                                    "flex text-lg  font-medium cursor-pointer ml-5 flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"}>
-                                Chat GPT
-                            </div>
-                        </li>
-                        <li>
-                            <div
-                                onClick={() => { dispatch(setCat("Bard AI")); getdata("Bard AI") }}
-                                className={cat === "Bard AI" ?
-                                    "flex text-lg  font-medium bg-slate-500 text-white cursor-pointer -ml-3 pl-10 flex-row items-center h-12 "
-                                    :
-                                    "flex text-lg  font-medium cursor-pointer ml-5 flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"}>
-                                Bard AI
-                            </div>
-                        </li>
-                        <li>
-                            <div
-                                onClick={() => {dispatch(setCat("MidJourney")); getdata("MidJourney") }}
-                                className={cat === "MidJourney" ?
-                                    "flex text-lg  font-medium bg-slate-500 text-white cursor-pointer -ml-3 pl-10 flex-row items-center h-12 "
-                                    :
-                                    "flex text-lg  font-medium cursor-pointer ml-5 flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"}>
-                                Mid Journey
-                            </div>
-                        </li>
-                        <li>
-                            <div
-                                onClick={() => {dispatch(setCat("Copyai")); getdata("Copyai") }}
-                                className={cat === "Copyai" ?
-                                    "flex text-lg  font-medium bg-slate-500 text-white cursor-pointer -ml-3 pl-10 flex-row items-center h-12 "
-                                    :
-                                    "flex text-lg  font-medium cursor-pointer ml-5 flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"}>
-                                Copy.ai
-                            </div>
-                        </li>
-                        <li>
-                            <div
-                                onClick={() => {dispatch(setCat("Bing Chat")); getdata("Bing Chat") }}
-                                className={cat === "Bing Chat" ?
-                                    "flex text-lg  font-medium bg-slate-500 text-white cursor-pointer -ml-3 pl-10 flex-row items-center h-12 "
-                                    :
-                                    "flex text-lg  font-medium cursor-pointer ml-5 flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"}>
-                                Bing Chat
-                            </div>
-                        </li>
-                        <li>
-                            <div
-                                onClick={() => {dispatch(setCat("DALL-E")); getdata("DALL-E") }}
-                                className={cat === "DALL-E" ?
-                                    "flex text-lg  font-medium bg-slate-500 text-white cursor-pointer -ml-3 pl-10 flex-row items-center h-12 "
-                                    :
-                                    "flex text-lg  font-medium cursor-pointer ml-5 flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"}>
-                                DALL-E
-                            </div>
-                        </li>
-                        <li>
-                            <div
-                                onClick={() => {dispatch(setCat("GitHub Copilot")); getdata("GitHub Copilot") }}
-                                className={cat === "GitHub Copilot" ?
-                                    "flex text-lg  font-medium bg-slate-500 text-white cursor-pointer -ml-3 pl-10 flex-row items-center h-12 "
-                                    :
-                                    "flex text-lg  font-medium cursor-pointer ml-5 flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800"}>
-                                GitHub Copilot
-                            </div>
-                        </li>
+                    <ul className="flex flex-row md:flex-col gap-1.5 overflow-x-auto md:overflow-x-visible no-scrollbar pb-3 md:pb-0">
+                        {[
+                            { id: "Chatgpt", label: "ChatGPT" },
+                            { id: "Bard AI", label: "Gemini / Bard AI" },
+                            { id: "MidJourney", label: "Midjourney" },
+                            { id: "Copyai", label: "Copy.ai" },
+                            { id: "Bing Chat", label: "Bing Chat" },
+                            { id: "DALL-E", label: "DALL-E" },
+                            { id: "GitHub Copilot", label: "GitHub Copilot" }
+                        ].map((categoryItem) => {
+                            const isActive = cat === categoryItem.id;
+                            return (
+                                <li key={categoryItem.id} className="shrink-0 md:w-full">
+                                    <div
+                                        onClick={() => {
+                                            dispatch(setCat(categoryItem.id));
+                                            getdata(categoryItem.id);
+                                        }}
+                                        className={`px-4 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-200 flex items-center ${
+                                            isActive
+                                                ? "bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 font-bold"
+                                                : "text-stone-600 hover:text-stone-900 hover:bg-stone-50/80 border-l-4 border-transparent pl-4 hover:translate-x-1"
+                                        }`}
+                                    >
+                                        {categoryItem.label}
+                                    </div>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
 
+                {/* Right Content Panel */}
+                <div className="flex-1 p-6 md:p-8">
+                    <div className="mb-6">
+                        <h1 className="text-xl md:text-2xl font-extrabold text-stone-900 tracking-tight flex items-center gap-2">
+                            {cat} Prompts
+                            <span className="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full border border-emerald-100/50">
+                                {data.length} found
+                            </span>
+                        </h1>
+                    </div>
 
-                {isLoading &&
-                    <div className="w-full flex items-center justify-center gap-4">
-                        <div
-                            className="w-40 h-40 rounded-full animate-spin border-y-8 border-solid border-violet-500 border-t-transparent shadow-md">
+                    {isLoading ? (
+                        <div className="min-h-[50vh] flex flex-col items-center justify-center gap-4">
+                            <div className="w-12 h-12 rounded-full animate-spin border-4 border-solid border-emerald-500 border-t-transparent shadow-md"></div>
+                            <span className="text-xs text-stone-500 font-semibold">Fetching prompts...</span>
                         </div>
-                    </div>}
-                {!isLoading && <div className="grid lg:grid-cols-4 gap-2 md:grid-cols-2 sm:grid-cols-1">
-                    {data.length > 0 && isLoading === false ? data.map((item) => (
-                        <div className='m-2'>
-                            <HomeCard name={item.name} image={item.imageUrl} category={item.category} price={item.price} promptDescription={item.promptDescription} promptData={item.promptData} id={item._id} />
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {data.length > 0 ? (
+                                data.map((item) => (
+                                    <div key={item._id} className="w-full flex justify-center">
+                                        <HomeCard
+                                            name={item.name}
+                                            image={item.imageUrl}
+                                            category={item.category}
+                                            price={item.price}
+                                            promptDescription={item.promptDescription}
+                                            promptData={item.promptData}
+                                            id={item._id}
+                                        />
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="col-span-full py-16 flex flex-col items-center justify-center text-stone-500 bg-white/40 border border-dashed border-stone-200/80 rounded-2xl">
+                                    <span className="text-sm font-bold text-stone-850">No Prompts Found</span>
+                                    <span className="text-[11px] text-stone-500 mt-1">We don't have any prompts uploaded in this category yet.</span>
+                                </div>
+                            )}
                         </div>
-                    ))
-                        : <>
-                            <h1 className='text-2xl'>No Prompt for this Category</h1>
-                        </>}
+                    )}
                 </div>
-                }
-
-
             </div>
         </div>
     )

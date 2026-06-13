@@ -53,106 +53,148 @@ const Pricing = () => {
   }
 
   return (
-    <div>
-
-<section className="py-20 relative z-40 ">
-  <div>
-    <div className="mx-auto max-w-2xl sm:text-center">
-      <span className="font-medium text-gray-400 tracking-widest">our price</span>
-      <h2 className="md:text-5xl text-3xl font-medium tracking-tight mt-7">Price Plans</h2>
-      <div className="w-10 mx-auto mt-5 bg-gradient-to-r from-cyan-500 to-blue-500 h-[2px]" />
-      <p className="mt-6 text-xl/8 text-gray-600 dark:text-gray-400">Choose the plan that suits your needs best and enjoy the creative Work.</p>
-    </div>
-    <div className="grid lg:grid-cols-3 grid-cols-1 gap-10 2xl:px-28 mt-20">
-      
-    <div className="flex flex-col border border-gray-300 rounded-xl overflow-hidden dark:border-gray-700">
-        <div className="text-center pt-10">
-          <h5 className="text-xl font-semibold">Basic</h5>
-          <h2 className="text-5xl mt-8 mb-3 items-center align-middle">
-            <sup className="text-2xl align-middle">₹</sup>49
+    <div className="bg-[#FAF8F5] text-stone-900 min-h-screen py-16 px-4">
+      <div className="max-w-6xl mx-auto">
+        
+        {/* Header Block */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-100/50 shadow-sm">
+            Pricing Plans
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold mt-6 tracking-tight text-stone-900">
+            Purchase Credits
           </h2>
+          <p className="mt-4 text-stone-500 text-sm sm:text-base leading-relaxed">
+            Acquire credits instantly to unlock high-quality engineering prompts and execute them in our live sandbox playground.
+          </p>
         </div>
-        <div className="p-10">
-          <ul className="mb-10 text-center">
-            <li className="my-4">
-              <h5 className="font-medium dark:text-gray-300">100 Credits</h5>
-            </li>
-            <li>
-              <h5 className="font-medium dark:text-gray-300">Lorem ipsum dolor sit amet</h5>
-            </li>
-          </ul>
-          <div className="flex justify-center">
-            <a onClick={()=>handlePayment("Basic",49)} className="py-3 px-6 cursor-pointer font-medium border rounded-md border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-500">Get Basic</a>
-          </div>
-        </div>
-      </div>
 
-      {/*  */}
-      <div className="relative z-20">
-        <div className="absolute top-0 inset-x-0">
-          <div className="flex justify-center">
-            <span className="text-xs font-medium uppercase border border-gray-700 text-white bg-black px-2 py-1 rounded-md -mt-3">most popular</span>
-          </div>
-        </div>
-        <div className="group">
-          <div className="border rounded-xl border-gray-300 bg-white dark:border-gray-700 dark:bg-neutral-900">
-            <div className="text-center">
-              <div className="flex flex-col">
-                <div className="text-center pt-10">
-                  <h5 className="text-xl font-semibold">Pro</h5>
-                  <h2 className="text-5xl mt-8 mb-3 items-center align-middle">
-                    <sup className="text-2xl align-middle">₹</sup>99
-                  </h2>
-                </div>
-                <div className="p-10">
-                    <ul className="mb-10 text-center">
-                      <li className="my-4">
-                        <h5 className="font-medium dark:text-gray-300">250 Credits</h5>
-                      </li>
-                      <li>
-                        <h5 className="font-medium dark:text-gray-300">Lorem ipsum dolor sit amet</h5>
-                      </li>
-
-                    </ul>
-                  <div className="flex justify-center">
-                    <a onClick={()=> handlePayment("Pro",99)} className="py-3 cursor-pointer px-6 font-medium border rounded-md border-purple-500 bg-purple-500 text-white hover:bg-purple-500-800">Get Pro</a>
-                  </div>
-                </div>
+        {/* Pricing Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
+          
+          {/* Card 1: Basic */}
+          <div className="glass-card bg-white border border-stone-200/60 rounded-2xl flex flex-col p-8 transition-all hover:border-emerald-500/30 shadow-md">
+            <div className="text-center pb-6 border-b border-stone-100">
+              <h3 className="text-base font-bold text-stone-700">Basic Tier</h3>
+              <div className="text-3xl font-extrabold text-stone-900 mt-4 flex items-center justify-center gap-1">
+                <span className="text-lg text-stone-400 font-semibold">₹</span>49
               </div>
+              <span className="text-[11px] text-stone-400 mt-1 block">One-time payment</span>
+            </div>
+            
+            <div className="py-6 flex-1 flex flex-col justify-between">
+              <ul className="space-y-4 mb-8 text-xs text-stone-600">
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600 font-bold">✓</span> 100 Account Credits
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600 font-bold">✓</span> Playtest up to 100 Prompts
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600 font-bold">✓</span> Full Gemini Sandbox access
+                </li>
+                <li className="flex items-center gap-2 text-stone-400">
+                  <span>✗</span> Priority developer support
+                </li>
+              </ul>
+              
+              <button 
+                onClick={() => handlePayment("Basic", 49)} 
+                className="w-full py-2.5 rounded-xl border border-emerald-500/30 text-emerald-600 hover:bg-emerald-600 hover:text-white bg-emerald-50 font-bold text-xs transition-all text-center"
+              >
+                Purchase Basic
+              </button>
             </div>
           </div>
-          <div className="absolute bg-neutral-300/30 rounded-xl dark:bg-neutral-700 h-96 left-0 top-0 w-full translate-x-2 translate-y-2 -z-10" />
-        </div>
-      </div>
 
-      {/*  */}
-      <div className="flex flex-col border border-gray-300 rounded-xl overflow-hidden dark:border-gray-700">
-        <div className="text-center pt-10">
-          <h5 className="text-xl font-semibold">Ultimate</h5>
-          <h2 className="text-5xl mt-8 mb-3 items-center align-middle">
-            <sup className="text-2xl align-middle">₹</sup>199
-          </h2>
-        </div>
-        <div className="p-10">
-          <ul className="mb-10 text-center">
-            <li className="my-4">
-              <h5 className="font-medium dark:text-gray-300">500 credits</h5>
-            </li>
-            <li>
-              <h5 className="font-medium dark:text-gray-300">Lorem ipsum dolor sit amet</h5>
-            </li>
-          </ul>
-          <div className="flex justify-center">
-            <a onClick={()=> handlePayment("Utimate",199)} className=" cursor-pointer py-3 px-6 font-medium border rounded-md border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-500">Get Ultimate</a>
+          {/* Card 2: Pro (Featured) */}
+          <div className="relative glass-card bg-white border-2 border-emerald-500/50 rounded-2xl flex flex-col p-8 transition-all shadow-xl scale-105 z-10">
+            {/* Most Popular Ribbon */}
+            <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-emerald-600 px-3.5 py-1 rounded-full border border-emerald-400/30 shadow-md">
+                Most Popular
+              </span>
+            </div>
+
+            <div className="text-center pb-6 border-b border-stone-100">
+              <h3 className="text-base font-bold text-emerald-700">Pro Tier</h3>
+              <div className="text-3xl font-extrabold text-stone-900 mt-4 flex items-center justify-center gap-1">
+                <span className="text-lg text-stone-400 font-semibold">₹</span>99
+              </div>
+              <span className="text-[11px] text-stone-400 mt-1 block">One-time payment</span>
+            </div>
+            
+            <div className="py-6 flex-1 flex flex-col justify-between">
+              <ul className="space-y-4 mb-8 text-xs text-stone-700">
+                <li className="flex items-center gap-2 font-semibold">
+                  <span className="text-emerald-600">✓</span> 250 Account Credits (Bonus!)
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600">✓</span> Playtest up to 250 Prompts
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600">✓</span> Premium developer templates
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600">✓</span> Gemini 2.5 flash playground
+                </li>
+              </ul>
+              
+              <button 
+                onClick={() => handlePayment("Pro", 99)} 
+                className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all text-center shadow-md hover:shadow-emerald-600/15"
+              >
+                Purchase Pro
+              </button>
+            </div>
           </div>
+
+          {/* Card 3: Ultimate */}
+          <div className="glass-card bg-white border border-stone-200/60 rounded-2xl flex flex-col p-8 transition-all hover:border-emerald-500/30 shadow-md">
+            <div className="text-center pb-6 border-b border-stone-100">
+              <h3 className="text-base font-bold text-stone-700">Ultimate Tier</h3>
+              <div className="text-3xl font-extrabold text-stone-900 mt-4 flex items-center justify-center gap-1">
+                <span className="text-lg text-stone-400 font-semibold">₹</span>199
+              </div>
+              <span className="text-[11px] text-stone-400 mt-1 block">One-time payment</span>
+            </div>
+            
+            <div className="py-6 flex-1 flex flex-col justify-between">
+              <ul className="space-y-4 mb-8 text-xs text-stone-600">
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600 font-bold">✓</span> 500 Account Credits
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600 font-bold">✓</span> Infinite access & updates
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600 font-bold">✓</span> Unlock premium admin cards
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-emerald-600 font-bold">✓</span> Priority 24/7 client support
+                </li>
+              </ul>
+              
+              <button 
+                onClick={() => handlePayment("Ultimate", 199)} 
+                className="w-full py-2.5 rounded-xl border border-emerald-500/30 text-emerald-600 hover:bg-emerald-600 hover:text-white bg-emerald-50 font-bold text-xs transition-all text-center"
+              >
+                Purchase Ultimate
+              </button>
+            </div>
+          </div>
+
         </div>
+
+        {/* Footer Support Call */}
+        <h5 className="text-center text-sm font-semibold text-stone-550 mt-16">
+          Interested in a custom enterprise plan?{" "}
+          <a href="/contact" className="text-emerald-600 hover:underline">
+            Get in touch with us
+          </a>
+        </h5>
+
       </div>
-    </div>
-    <h5 className="text-center font-medium mt-14">lnterested in a custom plan? <a href="#" className="text-purple-500">Get in touch</a></h5>
-  </div>
-</section>
-
-
     </div>
   )
 }
